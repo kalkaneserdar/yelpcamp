@@ -1,0 +1,55 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Something</p>
+            <div class="list-group">
+                <li class="list-group-item active">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 2</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="thumbnail">
+                <img class="img-responsive" src="<%= campground.photo %>">
+                <div class="caption-full">
+                    <h4><%= campground.name %></h4>
+                    <h4 class="pull-right">$<%= campground.price %>/night</h4>
+                </div>
+                <p><%= campground.desc %></p>
+                <% if((currentUser) && currentUser._id.toString() === campground.createdBy.id.toString()){ %>
+                    <p><a class = "btn btn-warning" href = "/campgrounds/<%= campground._id %>/edit">Edit</a></p>
+                <% } else { %>
+                    <p><em>Submitted By <%= campground.createdBy.username %></em></p>
+                <% } %>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class = "btn btn-success" href="/campgrounds/<%= campground._id%>/comments/new">Leave a New Comment</a>
+                </div>
+                <hr>
+                <% campground.comments.forEach(function(comment){ %>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <strong><%= comment.author.username %></strong>
+                            <span class="pull-right">10 Days Ago</span>
+                            <p>
+                                <%= comment.text %>
+                            </p>
+                            <% if((currentUser) && currentUser._id.toString() === comment.author.id.toString()){ %>
+                            <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id%>/comments/<%= comment._id %>/edit">Edit</a>
+                                <form id="delete-comment" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                    <input class="btn btn-xs btn-danger" type="submit" value="Delete">
+                                </form>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
