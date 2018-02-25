@@ -15,7 +15,7 @@ router.get("/", function(req, res){
 //REGISTER SHOW ROUTE
 router.get("/register", function(req, res){
     
-   res.render("register");
+   res.render("users/register");
 });
 
 //REGISTER HANDLER ROUTE
@@ -41,20 +41,24 @@ router.post("/register", function(req, res){
 //LOGIN SHOW ROUTE
 router.get("/login", function(req, res){
     
-   res.render("login", {message: req.flash("error")});
+   res.render("users/login");
 });
 
 //LOGIN HANDLER ROUTE
-router.post("/login", passport.authenticate("local", {
-    successRedirect: "/campgrounds",
-    failureRedirect: "/login"
-}), function(req, res){
+router.post("/login", passport.authenticate("local", 
+    {
+        successRedirect: "/campgrounds",
+        successFlash: "Login successful! Welcome back.",
+        failureRedirect: "/login",
+        failureFlash: true
+    }
+    ), function(req, res){
 });
 
 //LOGOUT ROUTE
 router.get("/logout", function(req, res){
     req.logout();
-    req.flash("success", "You are successfully logged out!")
+    req.flash("success", "You are successfully logged out!");
     res.redirect("/campgrounds");
 });
 
