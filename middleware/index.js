@@ -67,8 +67,9 @@ middlewareObj.isAuthorizedCommentManipulation = function(req, res, next){
            
             if(err){
                 
-                console.log("SOMETHING WENT WRONG!: Read from campground collection via findById method while trying to edit campground is unsuccesful.");
+                console.log("SOMETHING WENT WRONG!: Read from comment collection via findById method while trying to edit campground is unsuccesful.");
                 console.log(err);
+                res.redirect("back");
             } 
             else {
                 
@@ -82,7 +83,7 @@ middlewareObj.isAuthorizedCommentManipulation = function(req, res, next){
                     
                     if(responseComment.author.id.toString() === req.user._id.toString()) {
                         
-                        return next();
+                        next();
                     }
                     else {
                         
