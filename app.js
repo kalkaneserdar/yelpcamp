@@ -19,7 +19,6 @@ const   campgroundRoutes    = require("./routes/campgroundRoutes"),
         indexRoutes         = require("./routes/indexRoutes");
 
 mongoose.connect(process.env.DATABASEURL); 
-
 //seedDB();
 
 //PASSPORT CONFIGURATION
